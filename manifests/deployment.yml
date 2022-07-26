@@ -1,0 +1,24 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: #{serviceName}#
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: #{serviceName}#
+  template:
+    metadata:
+      labels:
+        app: #{serviceName}# 
+    spec:
+      containers:
+        - name: #{imageRepository}# 
+          image: heartburstacr.azurecr.io/#{imageRepository}#
+          ports:
+          - containerPort: 3000
+          env:
+          - name: ADMINAPI_ENDPOINT
+            value: "#{AdminApi.Endpoint}#"
+          - name: NEXT_PUBLIC_ADMINAPI_ENDPOINT
+            value: "#{AdminApi.Endpoint}#"

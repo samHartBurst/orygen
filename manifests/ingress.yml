@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: #{slug}#-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: 'true'
+    meta.helm.sh/release-name: #{slug}#
+    meta.helm.sh/release-namespace: #{slug}#
+spec:
+  tls:
+    - hosts:
+      - #{slug}#.host.heartburst.com.au
+      secretName: #{slug}#.host.heartburst.com.au-tls
+  rules:
+    - host: #{slug}#.host.heartburst.com.au
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              serviceName: #{serviceName}#
+              servicePort: 3000
